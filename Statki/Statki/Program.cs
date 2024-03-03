@@ -1,12 +1,13 @@
 ﻿using System;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
-class Plansza
+class Board
 {
-    public char[,] tablica;
+    public char[,] array;
 
-    public Plansza()
+    public Board()
     {
-        tablica = new char[10, 10];
+        array = new char[10, 10];
         InitializeBoards();
     }
 
@@ -16,7 +17,7 @@ class Plansza
         {
             for (int j = 0; j < 10; j++)
             {
-                tablica[i, j] = '-';
+                array[i, j] = '-';
             }
         }
     }
@@ -27,7 +28,7 @@ class Plansza
         {
             for (int j = 0; j < 10; j++)
             {
-                Console.Write(tablica[i, j] + " ");
+                Console.Write(array[i, j] + " ");
             }
             Console.WriteLine();
         }
@@ -41,7 +42,7 @@ class Plansza
                 return false;
             for (int i = x; i < x + size; i++)
             {
-                if (tablica[i, y] != '-')
+                if (array[i, y] != '-')
                     return false;
             }
         }
@@ -51,7 +52,7 @@ class Plansza
                 return false;
             for (int j = y; j < y + size; j++)
             {
-                if (tablica[x, j] != '-')
+                if (array[x, j] != '-')
                     return false;
             }
         }
@@ -62,7 +63,7 @@ class Plansza
             {
                 if (i >= 0 && i < 10 && j >= 0 && j < 10)
                 {
-                    if (tablica[i, j] != '-')
+                    if (array[i, j] != '-')
                         return false;
                 }
             }
@@ -76,14 +77,14 @@ class Plansza
         {
             for (int i = x; i < x + size; i++)
             {
-                tablica[i, y] = 'S';
+                array[i, y] = 'S';
             }
         }
         else
         {
             for (int j = y; j < y + size; j++)
             {
-                tablica[x, j] = 'S';
+                array[x, j] = 'S';
             }
         }
     }
@@ -96,9 +97,9 @@ class Plansza
             {
                 if (i >= 0 && i < 10 && j >= 0 && j < 10)
                 {
-                    if (tablica[i, j] == '-')
+                    if (array[i, j] == '-')
                     {
-                        tablica[i, j] = 'O';
+                        array[i, j] = 'O';
                     }
                 }
             }
@@ -106,25 +107,25 @@ class Plansza
     }
 }
 
-class Gracz
+class Player
 {
-    public Plansza PlanszaStatkow { get; }
-    public Plansza PlanszaCelu { get; }
-    public int LiczbaStatkow { get; private set; }
-    public int LiczbaTrafien { get; private set; }
+    public Board ShipsBoard { get; }
+    public Board TargetBoard { get; }
+    public int NumberOfShips { get; private set; }
+    public int NumberOfTarget { get; private set; }
 
-    public Gracz()
+    public Player()
     {
-        PlanszaStatkow = new Plansza();
-        PlanszaCelu = new Plansza();
-        LiczbaStatkow = 20;
-        LiczbaTrafien = 0;
+        ShipsBoard = new Board();
+        TargetBoard = new Board();
+        NumberOfShips = 20;
+        NumberOfTarget = 0;
     }
 
-    public void FireShot(Gracz przeciwnik, int x, int y)
+    public void FireShot(Player opponent, int x, int y)
     {
-        char[,] shipsBoard = przeciwnik.PlanszaStatkow.tablica;
-        char[,] targetBoard = PlanszaCelu.tablica;
+        char[,] shipsBoard = opponent.ShipsBoard.array;
+        char[,] targetBoard = TargetBoard.array;
 
         if (targetBoard[x, y] != '-')
         {
@@ -137,12 +138,12 @@ class Gracz
         {
             Console.WriteLine("Trafiony!");
             targetBoard[x, y] = 'X';
-            przeciwnik.LiczbaStatkow--;
-            przeciwnik.LiczbaTrafien++;
+            opponent.NumberOfShips--;
+            opponent.NumberOfTarget++;
             Game.SwitchPlayer();
             if (CheckShipSunk(shipsBoard, x, y))
             {
-                PlanszaCelu.MarkSurroundingAsMiss(x, y);
+                TargetBoard.MarkSurroundingAsMiss(x, y);
             }
         }
         else
@@ -153,7 +154,7 @@ class Gracz
 
         if (CheckShipSunk(shipsBoard, x, y))
         {
-            PlanszaStatkow.MarkSurroundingAsMiss(x, y);
+            ShipsBoard.MarkSurroundingAsMiss(x, y);
         }
     }
 
@@ -192,7 +193,7 @@ class Gracz
 
         if (isSunk)
         {
-            PlanszaStatkow.MarkSurroundingAsMiss(x, y);
+            ShipsBoard  .MarkSurroundingAsMiss(x, y);
         }
 
         return isSunk;
@@ -201,19 +202,19 @@ class Gracz
 
 class Game
 {
-    static Gracz player1;
-    static Gracz player2;
+    static Player player1;
+    static Player player2;
     static int currentPlayer = 1;
 
     static void Main(string[] args)
     {
-        player1 = new Gracz();
-        player2 = new Gracz();
+        player1 = new Player();
+        player2 = new Player();
 
         PlaceShips(player1);
         PlaceShips(player2);
 
-        while (player1.LiczbaStatkow > 0 && player2.LiczbaStatkow > 0)
+        while (player1.NumberOfShips > 0 && player2.NumberOfShips > 0)
         {
             DisplayBoards();
 
@@ -238,13 +239,13 @@ class Game
                 Console.WriteLine("Błędne współrzędne! Podaj poprawne współrzędne.");
             }
         }
-        Console.WriteLine($"Gracz {(player1.LiczbaStatkow == 0 ? 2 : 1)} wygrał!");
+        Console.WriteLine($"Gracz {(player1.NumberOfShips == 0 ? 2 : 1)} wygrał!");
         Console.ReadLine();
     }
 
-    static void PlaceShips(Gracz gracz)
+    static void PlaceShips(Player player)
     {
-        Plansza plansza = gracz.PlanszaStatkow;
+        Board plansza = player.ShipsBoard;
         Random rand = new Random();
         for (int i = 4; i >= 1; i--)
         {
@@ -269,10 +270,10 @@ class Game
     static void DisplayBoards()
     {
         Console.WriteLine("\nPlansza celu gracza 1:");
-        player2.PlanszaCelu.Display();
+        player2.TargetBoard.Display();
 
         Console.WriteLine("\nPlansza celu gracza 2:");
-        player1.PlanszaCelu.Display();
+        player1.TargetBoard.Display();
     }
 
     public static void SwitchPlayer()
