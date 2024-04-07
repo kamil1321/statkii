@@ -1,0 +1,7 @@
+C:\Users\tbutk\Desktop\Nowy folder (8)\Battleships\bin\Debug\Battleships.exe.config
+C:\Users\tbutk\Desktop\Nowy folder (8)\Battleships\bin\Debug\Battleships.exe
+C:\Users\tbutk\Desktop\Nowy folder (8)\Battleships\bin\Debug\Battleships.pdb
+C:\Users\tbutk\Desktop\Nowy folder (8)\Battleships\obj\Debug\Battleships.csproj.AssemblyReference.cache
+C:\Users\tbutk\Desktop\Nowy folder (8)\Battleships\obj\Debug\Battleships.csproj.CoreCompileInputs.cache
+C:\Users\tbutk\Desktop\Nowy folder (8)\Battleships\obj\Debug\Battleships.exe
+C:\Users\tbutk\Desktop\Nowy folder (8)\Battleships\obj\Debug\Battleships.pdb
