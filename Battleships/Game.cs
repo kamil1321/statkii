@@ -49,7 +49,7 @@ namespace Battleships
                     SwitchPlayer();
                     if (currentPlayer != tempPlayer)
                     {
-                        Console.WriteLine("Kliknij dowolny klawisz aby przejsc do tury drugiego gracza...");
+                        Console.WriteLine($"Kliknij dowolny klawisz aby przejsc do tury gracza {currentPlayer}...");
                         Console.ReadLine();
                         Console.Clear();
                     }
