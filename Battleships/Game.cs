@@ -18,7 +18,12 @@ namespace Battleships
             player2 = new Player();
 
             PlaceShips(player1);
+            Console.Clear();
             PlaceShips(player2);
+            Console.Clear();
+            Console.WriteLine("Kliknij dowolny klawisz aby przejsc do tury pierwszego gracza...");
+            Console.ReadLine();
+            Console.Clear();
 
             while (player1.NumberOfShips > 0 && player2.NumberOfShips > 0)
             {
@@ -66,9 +71,8 @@ namespace Battleships
 
         static void PlaceShips(Player player)
         {
-            bool placed = false;
+            bool placed;
             Board board = player.ShipsBoard;
-
 
             placed = false;
             Console.Clear();
@@ -100,8 +104,6 @@ namespace Battleships
                 }
             }
 
-
-
             for (int i = 0; i < 4; i++)
             {
                 placed = false;
@@ -118,6 +120,7 @@ namespace Battleships
 
         static void DisplayBoards(Player shootingPlayer)
         {
+            Console.Clear();
             Console.WriteLine("\nPlansza celu gracza:");
             shootingPlayer.TargetBoard.Display();
 

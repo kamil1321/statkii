@@ -13,8 +13,8 @@ namespace Battleships
             bool placed = false;
             Console.WriteLine("Podaj współrzędne statku o długości " + lenght + ":");
             string input = Console.ReadLine().ToUpper();
-            int x ;
-            int y ;
+            int x;
+            int y;
 
             if (input.Length > 1 && input[0] >= 'A' && input[0] <= 'J' && int.TryParse(input.Substring(1), out y) && y >= 1 && y <= 10)
             {
@@ -31,7 +31,7 @@ namespace Battleships
                     }
                     catch
                     {
-                        Console.WriteLine("Błędny kierunek! Spróbuj ponownie.");
+                        Console.WriteLine("Błędny kierunek!");
                         return SetShip(board, lenght);
                     }
 

@@ -44,6 +44,7 @@ namespace Battleships
             }
             else
             {
+                Console.Clear();
                 Console.WriteLine("Pudło!");
                 targetBoard[x, y] = 'O';
             }
